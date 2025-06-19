@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediSys - Healthcare Operations Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Theme */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+            --dark: #f8fafc;
+            --light: #1e293b;
+            --gray: #64748b;
+            --card-bg: #334155;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .page.active {
+            display: block;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 30px;
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Home Page */
+        .hero {
+            padding: 180px 0 100px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            text-align: center;
+        }
+
+        .dark-mode .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        }
+
+        .hero h1 {
+            margin-bottom: 20px;
+            font-size: 3rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Capabilities Section */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 2.5rem;
+        }
+
+        .section-header p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .capability-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-top: 4px solid var(--primary);
+        }
+
+        .capability-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .capability-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .capability-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .capability-features {
+            margin-top: 20px;
+        }
+
+        .capability-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .capability-features li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            text-align: center;
+        }
+        
+        .dark-mode .page-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        
+        .breadcrumb {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .breadcrumb a {
+            color: var(--primary);
+            margin: 0 5px;
+        }
+        
+        .breadcrumb .separator {
+            margin: 0 5px;
+            color: var(--gray);
+        }
+
+        /* Pricing Table */
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 40px 0;
+        }
+        
+        .pricing-table th, 
+        .pricing-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .pricing-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .pricing-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark-mode .pricing-table tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Case Studies Grid */
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .case-study-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .case-study-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .case-study-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .case-study-content {
+            padding: 25px;
+        }
+        
+        .case-study-tag {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        /* Team Page */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .team-member {
+            text-align: center;
+        }
+        
+        .team-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid var(--primary);
+        }
+
+        /* Contact Page */
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+        
+        .contact-info {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        .contact-info h3 {
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--gray);
+            border-radius: 6px;
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #cbd5e1;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #334155;
+            color: #94a3b8;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--card-bg);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: var(--transition);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero {
+                padding: 150px 0 80px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo" data-page="home">Medi<span>Sys</span></a>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#" data-page="solutions">Solutions</a></li>
+                    <li><a href="#" data-page="pricing">Pricing</a></li>
+                    <li><a href="#" data-page="case-studies">Case Studies</a></li>
+                    <li><a href="#" data-page="team">Team</a></li>
+                    <li><a href="#" data-page="blog">Blog</a></li>
+                    <li><a href="#" data-page="contact">Contact</a></li>
+                </ul>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="hamburger" id="hamburger">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div class="page active" id="home-page">
+        <section class="hero">
+            <div class="container">
+                <h1>Unparalleled Medical Billing & Operations Capabilities</h1>
+                <p>Transform your healthcare organization with our comprehensive suite of medical billing, charging, and operations management solutions powered by AI-driven insights.</p>
+                <div class="hero-btns">
+                    <a href="#" class="btn" data-page="demo">Request Demo</a>
+                    <a href="#" class="btn btn-outline" data-page="solutions">Explore Features</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="capabilities">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Medical Billing & Operations Suite</h2>
+                    <p>Comprehensive solutions designed specifically for healthcare providers</p>
+                </div>
+                <div class="capabilities-grid">
+                    <div class="capability-card">
+                        <div class="capability-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3>Medical Billing</h3>
+                        <p>Streamline your revenue cycle with our end-to-end billing solutions.</p>
+                        <ul class="capability-features">
+                            <li>Automated Claims Processing</li>
+                            <li>Real-time Eligibility Verification</li>
+                            <li>Denial Management</li>
+                            <li>Patient Billing Portal</li>
+                        </ul>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <h3>Charging System</h3>
+                        <p>Advanced charging capabilities for all healthcare services.</p>
+                        <ul class="capability-features">
+                            <li>Service Catalog Management</li>
+                            <li>Real-time Pricing</li>
+                            <li>Flexible Payment Plans</li>
+                            <li>Multi-payer Support</li>
+                        </ul>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>Operations Management</h3>
+                        <p>Optimize your healthcare operations with powerful tools.</p>
+                        <ul class="capability-features">
+                            <li>Appointment Scheduling</li>
+                            <li>Inventory Management</li>
+                            <li>Staff Workflow</li>
+                            <li>Performance Analytics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Solutions Page -->
+    <div class="page" id="solutions-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Solutions</span>
+                </div>
+                <h1>Our Healthcare Solutions</h1>
+                <p>Comprehensive tools designed to streamline medical operations and billing</p>
+            </div>
+        </section>
+
+        <section class="capabilities">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Specialized Solutions</h2>
+                    <p>Tailored packages for different healthcare providers</p>
+                </div>
+                <div class="capabilities-grid">
+                    <div class="capability-card">
+                        <div class="capability-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h3>Hospital System</h3>
+                        <p>End-to-end solutions for large hospital networks and healthcare systems.</p>
+                        <ul class="capability-features">
+                            <li>Enterprise-scale billing</li>
+                            <li>Departmental charge capture</li>
+                            <li>Inter-facility reconciliation</li>
+                            <li>System-wide analytics</li>
+                        </ul>
+                        <a href="#" class="btn" style="margin-top: 20px;">Learn More</a>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-icon">
+                            <i class="fas fa-clinic-medical"></i>
+                        </div>
+                        <h3>Clinics & Practices</h3>
+                        <p>Streamlined solutions for private practices and clinic groups.</p>
+                        <ul class="capability-features">
+                            <li>Specialty-specific billing</li>
+                            <li>Appointment integration</li>
+                            <li>Patient payment portal</li>
+                            <li>Practice analytics</li>
+                        </ul>
+                        <a href="#" class="btn" style="margin-top: 20px;">Learn More</a>
+                    </div>
+                    <div class="capability-card">
+                        <div class="capability-icon">
+                            <i class="fas fa-teeth"></i>
+                        </div>
+                        <h3>Dental Providers</h3>
+                        <p>Specialized solutions for dental offices and DSOs.</p>
+                        <ul class="capability-features">
+                            <li>Dental claim processing</li>
+                            <li>Insurance verification</li>
+                            <li>Treatment plan costing</li>
+                            <li>Patient financing</li>
+                        </ul>
+                        <a href="#" class="btn" style="margin-top: 20px;">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Pricing Page -->
+    <div class="page" id="pricing-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Pricing</span>
+                </div>
+                <h1>Simple, Transparent Pricing</h1>
+                <p>Flexible plans to fit organizations of all sizes</p>
+            </div>
+        </section>
+
+        <section class="capabilities">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Pricing Plans</h2>
+                    <p>Choose the package that works for your organization</p>
+                </div>
+                
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Features</th>
+                            <th>Monthly Price</th>
+                            <th>Annual Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Basic</strong></td>
+                            <td>Core billing features for small practices</td>
+                            <td>$299/month</td>
+                            <td>$2,990/year (save 15%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Professional</strong></td>
+                            <td>Advanced features for growing practices</td>
+                            <td>$599/month</td>
+                            <td>$5,990/year (save 15%)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Enterprise</strong></td>
+                            <td>Complete suite for hospitals and large groups</td>
+                            <td>Custom Pricing</td>
+                            <td>Custom Pricing</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="#" class="btn" data-page="demo">Request Custom Quote</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Case Studies Page -->
+    <div class="page" id="case-studies-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Case Studies</span>
+                </div>
+                <h1>Success Stories</h1>
+                <p>See how healthcare providers are transforming their operations with MediSys</p>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <div class="case-studies-grid">
+                    <div class="case-study-card">
+                        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Case Study" class="case-study-img">
+                        <div class="case-study-content">
+                            <span class="case-study-tag">Hospital System</span>
+                            <h3>Regional Medical Center</h3>
+                            <p>How a 300-bed hospital reduced claim denials by 42% and improved collections by 28% in 6 months.</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read Case Study</a>
+                        </div>
+                    </div>
+                    <div class="case-study-card">
+                        <img src="https://images.unsplash.com/photo-1581056771107-24ca5f033842?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Case Study" class="case-study-img">
+                        <div class="case-study-content">
+                            <span class="case-study-tag">Multi-Specialty Group</span>
+                            <h3>Coastal Healthcare Associates</h3>
+                            <p>A 35-physician practice streamlined operations and reduced billing costs by 37% annually.</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read Case Study</a>
+                        </div>
+                    </div>
+                    <div class="case-study-card">
+                        <img src="https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Case Study" class="case-study-img">
+                        <div class="case-study-content">
+                            <span class="case-study-tag">Dental Network</span>
+                            <h3>Bright Smiles Dental</h3>
+                            <p>DSO with 50+ locations increased collections by 22% while reducing administrative overhead.</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read Case Study</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Team Page -->
+    <div class="page" id="team-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Our Team</span>
+                </div>
+                <h1>Meet Our Team</h1>
+                <p>The experts behind MediSys healthcare solutions</p>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <div class="team-grid">
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Team Member" class="team-photo">
+                        <h3>Dr. Sarah Johnson</h3>
+                        <p>Chief Medical Officer</p>
+                        <p>Board-certified physician with 15+ years healthcare experience</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1064&q=80" alt="Team Member" class="team-photo">
+                        <h3>Michael Chen</h3>
+                        <p>CTO</p>
+                        <p>Healthcare technology expert and AI specialist</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Team Member" class="team-photo">
+                        <h3>Lisa Rodriguez</h3>
+                        <p>VP of Operations</p>
+                        <p>Former hospital administrator with revenue cycle expertise</p>
+                    </div>
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Team Member" class="team-photo">
+                        <h3>David Wilson</h3>
+                        <p>Head of Product</p>
+                        <p>15 years building healthcare software solutions</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Blog Page -->
+    <div class="page" id="blog-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Blog</span>
+                </div>
+                <h1>MediSys Insights</h1>
+                <p>News, trends and best practices in healthcare operations</p>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <div class="blog-grid">
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80" alt="Blog Post" class="blog-img">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span>June 15, 2023</span>
+                                <span>5 min read</span>
+                            </div>
+                            <h3>5 Trends Shaping Medical Billing in 2023</h3>
+                            <p>How AI, regulatory changes, and patient expectations are transforming revenue cycle management.</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Blog Post" class="blog-img">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span>May 28, 2023</span>
+                                <span>7 min read</span>
+                            </div>
+                            <h3>Implementing AI in Your Medical Practice</h3>
+                            <p>A practical guide to adopting artificial intelligence for billing and operations.</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read Article</a>
+                        </div>
+                    </div>
+                    <div class="blog-card">
+                        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Blog Post" class="blog-img">
+                        <div class="blog-content">
+                            <div class="blog-meta">
+                                <span>April 10, 2023</span>
+                                <span>4 min read</span>
+                            </div>
+                            <h3>Reducing Claim Denials: Best Practices</h3>
+                            <p>Proven strategies to improve your first-pass acceptance rate and accelerate payments.</p>
+                            <a href="#" class="btn btn-outline" style="margin-top: 15px;">Read Article</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div class="page" id="contact-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Contact Us</span>
+                </div>
+                <h1>Get In Touch</h1>
+                <p>We'd love to hear from you and discuss how we can help your organization</p>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h3>Contact Information</h3>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Headquarters</h4>
+                                <p>123 Healthcare Way, Suite 400<br>Boston, MA 02108</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>(800) 555-HEALTH<br>Mon-Fri, 9am-5pm EST</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@medisys.com<br>support@medisys.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Send Us a Message</h3>
+                        <form class="demo-form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Demo Page -->
+    <div class="page" id="demo-page">
+        <section class="page-header">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="#" data-page="home">Home</a>
+                    <span class="separator">/</span>
+                    <span>Request Demo</span>
+                </div>
+                <h1>Schedule a Demo</h1>
+                <p>See MediSys in action with a personalized demonstration</p>
+            </div>
+        </section>
+
+        <section class="resources">
+            <div class="container">
+                <form class="demo-form">
+                    <div class="form-group">
+                        <label for="demo-name">Full Name</label>
+                        <input type="text" id="demo-name" name="demo-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-email">Email</label>
+                        <input type="email" id="demo-email" name="demo-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-organization">Organization</label>
+                        <input type="text" id="demo-organization" name="demo-organization" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-role">Role</label>
+                        <input type="text" id="demo-role" name="demo-role" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-size">Organization Size</label>
+                        <select id="demo-size" name="demo-size" required>
+                            <option value="">Select Size</option>
+                            <option value="1-10">1-10 Providers</option>
+                            <option value="11-50">11-50 Providers</option>
+                            <option value="51-100">51-100 Providers</option>
+                            <option value="100+">100+ Providers</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-date">Preferred Demo Date</label>
+                        <input type="date" id="demo-date" name="demo-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-time">Preferred Time</label>
+                        <select id="demo-time" name="demo-time" required>
+                            <option value="">Select Time</option>
+                            <option value="9-11">9:00 AM - 11:00 AM</option>
+                            <option value="11-1">11:00 AM - 1:00 PM</option>
+                            <option value="1-3">1:00 PM - 3:00 PM</option>
+                            <option value="3-5">3:00 PM - 5:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="demo-notes">Specific Areas of Interest</label>
+                        <textarea id="demo-notes" name="demo-notes"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Request Demo</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>MediSys</h3>
+                    <p>Advanced medical billing and operations solutions powered by AI and industry expertise.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" data-page="solutions">Solutions</a></li>
+                        <li><a href="#" data-page="pricing">Pricing</a></li>
+                        <li><a href="#" data-page="case-studies">Case Studies</a></li>
+                        <li><a href="#" data-page="team">Team</a></li>
+                        <li><a href="#" data-page="blog">Blog</a></li>
+                        <li><a href="#" data-page="contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Products</h3>
+                    <ul>
+                        <li><a href="#">Medical Billing</a></li>
+                        <li><a href="#">Charging System</a></li>
+                        <li><a href="#">Operations Mgmt</a></li>
+                        <li><a href="#">AI Analytics</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> (800) 555-HEALTH</li>
+                        <li><i class="fas fa-envelope"></i> info@medisys.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Healthcare Way, Boston, MA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MediSys Healthcare Solutions. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation System
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show requested page
+            document.getElementById(`${pageId}-page`).classList.add('active');
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Close mobile menu if open
+            if (navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Set up page navigation
+        document.querySelectorAll('[data-page]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+                
+                // Update URL without reload
+                history.pushState({}, '', `#${pageId}`);
+            });
+        });
+        
+        // Check for hash on load
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showPage(hash);
+            }
+        });
+        
+        // Handle back/forward navigation
+        window.addEventListener('popstate', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                showPage(hash);
+            } else {
+                showPage('home');
+            }
+        });
+
+        // Mobile Navigation
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                hamburger.innerHTML = navLinks.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
+            });
+        }
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            const themeIcon = themeToggle.querySelector('i');
+            
+            // Check for saved theme preference or use preferred color scheme
+            const savedTheme = localStorage.getItem('theme') || 
+                             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    themeIcon.classList.replace('fa-moon', 'fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    themeIcon.classList.replace('fa-sun', 'fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+        
+        // Form submission handlers
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your submission! We will contact you shortly.');
+                this.reset();
+            });
+        });
+    </script>
+</body>
+</html>
